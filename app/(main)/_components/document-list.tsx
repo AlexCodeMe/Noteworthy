@@ -35,7 +35,7 @@ export default function DocumentList({
 
 
     const onRedirect = (documentId: String) => {
-        // router.push(`/documents/${documentId}`)
+        router.push(`/documents/${documentId}`)
     }
 
   return documents !== undefined ? (

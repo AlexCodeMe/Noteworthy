@@ -104,7 +104,7 @@ export default function Navigation() {
 
     const handleCreate = () => {
         const promise = create({ title: 'Untitled' })
-            // .then((docId) => router.push(`/documents/${docId}`))
+            .then((docId) => router.push(`/documents/${docId}`))
 
         toast.promise(promise, {
             loading: 'Creating a note...',

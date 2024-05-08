@@ -73,7 +73,7 @@ export default function Item({
         }).then((docId) => {
             if (!expanded) onExpand?.()
 
-            // router.push(`/documents/${docId}`)
+            router.push(`/documents/${docId}`)
         })
 
         toast.promise(promise, {
@@ -130,7 +130,7 @@ export default function Item({
                         <DropdownMenuContent side='right'
                             align='start'
                             forceMount
-                            className='w-60'>
+                            className='w-60 ml-10'>
                             <DropdownMenuItem onClick={onArchive}>
                                 <Trash className='h-4 w-4 mr-2' />
                                 Delete
