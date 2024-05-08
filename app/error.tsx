@@ -7,7 +7,7 @@ import React from 'react'
 
 export default function Error() {
   return (
-    <div className=''>
+    <div className='h-full flex flex-col items-center justify-center space-y-4'>
       <Image src='/error.png'
         alt='error'
         height={300}

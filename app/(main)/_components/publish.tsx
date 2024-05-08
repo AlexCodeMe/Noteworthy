@@ -20,7 +20,7 @@ export default function Publish({ initialData }: {
     const [copied, setCopied] = useState(false)
     const [isSubmitting, setIsSubmitting] = useState(false)
 
-    const url = `${origin}}/preview/${initialData._id}`
+    const url = `${origin}/preview/${initialData._id}`
 
     const onPublish = () => {
         setIsSubmitting(true)
@@ -31,7 +31,7 @@ export default function Publish({ initialData }: {
         }).finally(() => setIsSubmitting(false))
 
         toast.promise(promise, {
-            loading: 'Publishing note...',
+            loading: 'Publishing...',
             success: 'Note published!',
             error: 'Failed to publish note',
         })
