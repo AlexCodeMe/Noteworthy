@@ -1,16 +1,18 @@
 'use client'
 
 import Cover from '@/components/cover'
+import dynamic  from 'next/dynamic'
 import Toolbar from '@/components/toolbar'
 import { Skeleton } from '@/components/ui/skeleton'
 import { api } from '@/convex/_generated/api'
 import { Id } from '@/convex/_generated/dataModel'
 import { useMutation, useQuery } from 'convex/react'
-import React from 'react'
+import React, { useMemo } from 'react'
 
 export default function DocumentIdPage({ params }: {
     params: { documentId: Id<'documents'> }
 }) {
+    const Editor = useMemo(() => dynamic(() => import("@/components/editor"), { ssr: false }), []);
     const document = useQuery(api.documents.getById, {
         documentId: params.documentId
     })
@@ -42,7 +44,8 @@ export default function DocumentIdPage({ params }: {
             <Cover url={document.coverImage} />
             <div className='md:max-w-3xl lg:max-w-4xl mx-auto'>
                 <Toolbar initialData={document} />
-                Editor
+                <Editor onChange={onChange}
+                    initialContent={document.content} />
             </div>
         </div>
     )

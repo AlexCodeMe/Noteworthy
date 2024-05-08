@@ -6,19 +6,46 @@ import { useMutation } from 'convex/react'
 import { useParams } from 'next/navigation'
 import React, { useState } from 'react'
 import { Dialog, DialogContent, DialogHeader } from '../ui/dialog'
+import { useEdgeStore } from '@/lib/edgestore'
+import { Id } from '@/convex/_generated/dataModel'
+import { SingleImageDropzone } from '../single-image-dropzone'
 
 export default function CoverImageModal() {
     const params = useParams()
     const update = useMutation(api.documents.update)
     const coverImage = useCoverImage()
-    // const { edgestore } = useEdgeStore()
+    const { edgestore } = useEdgeStore()
 
     const [file, setFile] = useState<File>()
     const [isSubmitting, setIsSubmitting] = useState(false)
 
-    const onClose = () => {}
+    const onClose = () => {
+        setFile(undefined)
+        setIsSubmitting(false)
 
-    const onChange = async (file?: File) => {}
+        coverImage.onClose()
+    }
+
+    const onChange = async (file?: File) => {
+        if (file) {
+            setIsSubmitting(true)
+            setFile(file)
+
+            const res = await edgestore.publicFiles.upload({
+                file,
+                options: {
+                    replaceTargetUrl: coverImage.url
+                }
+            })
+
+            await update({
+                id: params.documentId as Id<'documents'>,
+                coverImage: res.url
+            })
+
+            onClose()
+        }
+    }
 
 
   return (
@@ -30,6 +57,10 @@ export default function CoverImageModal() {
                 Cover Image
             </h2>
         </DialogHeader>
+        <SingleImageDropzone value={file}
+            disabled={isSubmitting}
+            onChange={onChange}
+            className='w-full outline-none' />
       </DialogContent>
     </Dialog>
   )
